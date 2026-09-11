@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reproduciendo — CornHub 🌽</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌽</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="intro-splash" id="intro-splash">
+    <div class="intro-logo" id="intro-logo"></div>
+    <div class="intro-text">CornHub</div>
+    <div class="intro-flash"></div>
+  </div>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="kernel" id="logo-icon"></span> CornHub
+      <span class="tagline">Puro maíz, cero drama</span>
+    </a>
+    <form class="search-bar" id="search-form">
+      <input type="text" id="search-input" placeholder="Buscar videos de maíz..." autocomplete="off" />
+      <button type="submit" id="search-btn"></button>
+    </form>
+    <span class="sim-badge">TODO SIMULADO</span>
+    <div id="auth-slot"></div>
+  </header>
+
+  <div class="watch-layout">
+    <div>
+      <div class="player" id="player">
+        <canvas id="player-canvas" width="960" height="540"></canvas>
+        <span class="player-overlay-msg">▶ Reproductor simulado — sin video real</span>
+        <div class="buffering-spinner" id="buffering-spinner"></div>
+        <div class="player-controls">
+          <div class="progress-track" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="controls-row">
+            <button id="play-btn">▶</button>
+            <button id="mute-btn">🔊</button>
+            <span class="time" id="time-label">0:00 / 0:00</span>
+            <span class="spacer"></span>
+            <span class="time" id="live-viewers"></span>
+            <button id="fullscreen-btn">⛶</button>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="video-title" id="video-title"></h1>
+      <div class="video-info-row">
+        <span id="video-meta"></span>
+        <div class="action-buttons">
+          <button id="like-btn">👍 <span id="like-count"></span></button>
+          <button id="dislike-btn">👎</button>
+          <button id="share-btn">↗ Compartir</button>
+          <button id="save-btn">💾 Guardar</button>
+        </div>
+      </div>
+
+      <a class="channel-box" id="channel-link" style="text-decoration:none">
+        <span class="avatar" id="channel-avatar"></span>
+        <div>
+          <div class="channel-name" id="channel-name"></div>
+          <div class="channel-subs" id="channel-subs"></div>
+        </div>
+        <button class="subscribe-btn" id="subscribe-btn">Suscribirse</button>
+      </a>
+
+      <div class="description-box" id="description-box"></div>
+
+      <section class="comments-section">
+        <div class="comments-count" id="comments-count"></div>
+        <div class="comment-input-row">
+          <span class="avatar" id="my-avatar">🙂</span>
+          <input type="text" id="comment-input" placeholder="Agrega un comentario simulado..." />
+          <button id="comment-submit">Comentar</button>
+        </div>
+        <button id="edit-profile-btn" class="edit-profile-link">✏ Editar mi nombre / avatar</button>
+        <div id="comments-list"></div>
+      </section>
+    </div>
+
+    <aside>
+      <div class="sidebar-title">Videos recomendados</div>
+      <div id="sidebar-list"></div>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    CornHub es un sitio de demostración: todos los videos, vistas y comentarios son ficticios y se generan en el navegador.
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="svg.js"></script>
+  <script src="storage.js"></script>
+  <script src="dbsync.js"></script>
+  <script src="render.js"></script>
+  <script src="auth.js"></script>
+  <script src="eastereggs.js"></script>
+  <script src="player.js"></script>
+</body>
+</html>

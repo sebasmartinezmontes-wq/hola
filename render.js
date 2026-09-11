@@ -1,0 +1,28 @@
+// Construye la tarjeta de video usada tanto en el home como en la página de canal.
+function makeCardEl(video) {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const progress = randInt(0, 60);
+
+  card.innerHTML = `
+    <a href="watch.html?v=${video.id}" class="thumb-wrap" style="background:${video.gradient}">
+      ${video.isLive ? '<span class="live-badge">EN VIVO</span>' : ""}
+      <div class="corn-illustration">${cornSVG(video.paletteIndex)}</div>
+      ${categoryIconBadge(video.icon)}
+      <div class="ch-watermark">${ICON_CH_WATERMARK}</div>
+      <div class="play-overlay">${ICON_PLAY_CIRCLE}</div>
+      <span class="duration-badge">${video.isLive ? "LIVE" : formatDuration(video.duration)}</span>
+      ${!video.isLive && Math.random() < 0.3 ? `<div class="fake-progress" style="width:${progress}%"></div>` : ""}
+    </a>
+    <div class="card-body">
+      <a href="watch.html?v=${video.id}"><h3 class="card-title">${video.title}</h3></a>
+      <a href="channel.html?name=${encodeURIComponent(video.channel.name)}" class="channel-row">
+        <span class="avatar">${video.channel.emoji}</span>
+        <span>${video.channel.name}</span>
+      </a>
+      <div class="card-meta">${formatViews(video.views)} vistas · ${timeAgo(video.daysAgo)}</div>
+    </div>
+  `;
+  return card;
+}

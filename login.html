@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar sesión — CornHub 🌽</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌽</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="kernel" id="logo-icon"></span> CornHub
+    </a>
+  </header>
+
+  <main class="auth-page">
+    <form class="auth-card" id="login-form">
+      <h1>Iniciar sesión</h1>
+      <p class="auth-note">
+        Cuenta 100% simulada: no se envía nada a ningún servidor, solo se guarda
+        en este navegador (localStorage) para poder comentar y "subir" videos.
+      </p>
+
+      <label>Elige tu avatar</label>
+      <div class="avatar-picker" id="avatar-picker"></div>
+
+      <label for="name-input">Nombre de usuario</label>
+      <input type="text" id="name-input" placeholder="ElMaicero99" required maxlength="24" />
+
+      <label for="pass-input">Contraseña (no se guarda, es solo decorativa)</label>
+      <input type="password" id="pass-input" placeholder="••••••••" />
+
+      <button type="submit" class="primary-btn">Entrar</button>
+    </form>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="svg.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>
