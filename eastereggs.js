@@ -173,7 +173,7 @@ function triggerLogoVideo() {
   overlay.innerHTML = `
     <div class="cornhub-video-box">
       <button class="cornhub-video-close" title="Cerrar">×</button>
-      <video src="video.mp4" autoplay controls></video>
+      <video src="https://dvfubytpxgarjfethedj.supabase.co/storage/v1/object/public/videos/eastereggs/logo-secret.mp4" autoplay controls></video>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -195,7 +195,7 @@ function triggerLogoVideo() {
   });
   overlay.querySelector("video").addEventListener("ended", closeOverlay);
   overlay.querySelector("video").addEventListener("error", () => {
-    showToast("🌽 Falta el archivo video.mp4 en el proyecto");
+    showToast("🌽 No se pudo cargar el video sorpresa");
   });
 }
 
