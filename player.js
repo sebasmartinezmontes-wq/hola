@@ -152,6 +152,18 @@ function startPlayer(video) {
     refreshSubscribeBtn();
   });
 
+  // ---------- Publicación de imagen (foto en vez de video) ----------
+  const imageEl = document.getElementById("player-image");
+  if (video.imageUrl) {
+    document.getElementById("player-canvas").style.display = "none";
+    document.getElementById("player-overlay-msg").style.display = "none";
+    document.getElementById("buffering-spinner").style.display = "none";
+    document.getElementById("player-controls").style.display = "none";
+    imageEl.style.display = "block";
+    imageEl.src = video.imageUrl;
+    return startSidebar();
+  }
+
   // ---------- Reproductor real (si el video tiene un archivo subido) ----------
   const videoEl = document.getElementById("player-video");
   const isRealVideo = !!video.videoUrl;

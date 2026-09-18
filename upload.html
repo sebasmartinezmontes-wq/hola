@@ -17,20 +17,32 @@
 
   <main class="auth-page">
     <form class="auth-card" id="upload-form">
-      <h1>Subir video</h1>
+      <h1>Subir contenido</h1>
       <p class="auth-note">
-        El video se sube de verdad y queda visible para todos los que entren
+        El archivo se sube de verdad y queda visible para todos los que entren
         al sitio (o solo en tu navegador si la sincronización no está disponible).
       </p>
 
-      <label for="title-input">Título del video</label>
+      <div class="post-type-toggle">
+        <button type="button" class="post-type-btn active" id="type-video-btn">🎬 Video</button>
+        <button type="button" class="post-type-btn" id="type-image-btn">🖼️ Foto</button>
+      </div>
+
+      <label for="title-input">Título</label>
       <input type="text" id="title-input" placeholder="Mi elote hace algo increíble..." required maxlength="90" />
 
       <label for="cat-select">Categoría</label>
       <select id="cat-select"></select>
 
-      <label for="video-file-input">Archivo de video</label>
-      <input type="file" id="video-file-input" accept="video/*" required />
+      <div id="video-field">
+        <label for="video-file-input">Archivo de video</label>
+        <input type="file" id="video-file-input" accept="video/*" />
+      </div>
+
+      <div id="image-field" style="display:none">
+        <label for="image-file-input">Archivo de imagen</label>
+        <input type="file" id="image-file-input" accept="image/*" />
+      </div>
 
       <div id="upload-progress-wrap" style="display:none">
         <label>Subiendo...</label>

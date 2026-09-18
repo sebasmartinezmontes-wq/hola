@@ -832,6 +832,30 @@ footer.site-footer {
   background: rgba(255,153,0,.15);
 }
 
+.post-type-toggle {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 6px;
+}
+
+.post-type-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.post-type-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255,153,0,.1);
+}
+
 .auth-error {
   background: rgba(217,60,60,.12);
   border: 1px solid #d93c3c;
