@@ -15,28 +15,31 @@
   </header>
 
   <main class="auth-page">
-    <form class="auth-card" id="login-form">
-      <h1>Iniciar sesión</h1>
-      <p class="auth-note">
-        Cuenta 100% simulada: no se envía nada a ningún servidor, solo se guarda
-        en este navegador (localStorage) para poder comentar y "subir" videos.
-      </p>
+    <form class="auth-card" id="auth-form">
+      <h1 id="auth-title">Iniciar sesión</h1>
+      <p class="auth-note" id="auth-note">Entrá con tu correo y contraseña.</p>
 
-      <label>Elige tu avatar</label>
-      <div class="avatar-picker" id="avatar-picker"></div>
+      <div id="name-field" style="display:none">
+        <label for="name-input">Nombre de tu canal</label>
+        <input type="text" id="name-input" placeholder="Mi canal de elotes" maxlength="40" />
+      </div>
 
-      <label for="name-input">Nombre de usuario</label>
-      <input type="text" id="name-input" placeholder="ElMaicero99" required maxlength="24" />
+      <label for="email-input">Correo electrónico</label>
+      <input type="email" id="email-input" required autocomplete="email" />
 
-      <label for="pass-input">Contraseña (no se guarda, es solo decorativa)</label>
-      <input type="password" id="pass-input" placeholder="••••••••" />
+      <label for="password-input">Contraseña</label>
+      <input type="password" id="password-input" required minlength="6" autocomplete="current-password" />
 
-      <button type="submit" class="primary-btn">Entrar</button>
+      <p class="auth-error" id="auth-error" style="display:none"></p>
+
+      <button type="submit" class="primary-btn" id="auth-submit-btn">Iniciar sesión</button>
+      <button type="button" class="auth-switch-btn" id="auth-switch-btn">¿No tenés cuenta? Creá una</button>
     </form>
   </main>
 
-  <script src="storage.js"></script>
   <script src="svg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="login.js"></script>
 </body>
 </html>

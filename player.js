@@ -47,7 +47,7 @@ function startPlayer(video) {
   document.getElementById("video-meta").textContent =
     `${formatViews(video.views)} vistas · ${timeAgo(video.daysAgo)}`;
   document.getElementById("like-count").textContent = formatViews(video.likes);
-  document.getElementById("channel-avatar").textContent = video.channel.emoji;
+  document.getElementById("channel-avatar").innerHTML = channelAvatarHTML(video.channel);
   document.getElementById("channel-name").textContent = video.channel.name;
   document.getElementById("channel-subs").textContent = `${video.channel.subs} suscriptores`;
   document.getElementById("channel-link").href = `channel.html?name=${encodeURIComponent(video.channel.name)}`;
@@ -151,6 +151,21 @@ function startPlayer(video) {
     toggleSubscription(video.channel.name);
     refreshSubscribeBtn();
   });
+
+  // ---------- Reproductor real (si el video tiene un archivo subido) ----------
+  const videoEl = document.getElementById("player-video");
+  const isRealVideo = !!video.videoUrl;
+
+  if (isRealVideo) {
+    document.getElementById("player-canvas").style.display = "none";
+    document.getElementById("player-overlay-msg").style.display = "none";
+    document.getElementById("buffering-spinner").style.display = "none";
+    document.getElementById("player-controls").style.display = "none";
+    videoEl.style.display = "block";
+    videoEl.src = video.videoUrl;
+    videoEl.play().catch(() => {});
+    return startSidebar();
+  }
 
   // ---------- Reproductor simulado (canvas) ----------
   const canvas = document.getElementById("player-canvas");
@@ -288,29 +303,33 @@ function startPlayer(video) {
   // autoplay simulado al cargar
   playing = true;
 
-  // ---------- Sidebar de recomendados ----------
-  const sidebarList = document.getElementById("sidebar-list");
-  const recommended = getAllVideos().filter((v) => v.id !== video.id)
-    .sort((a, b) => (a.category === video.category ? -1 : 0) - (b.category === video.category ? -1 : 0))
-    .slice(0, 10);
+  startSidebar();
 
-  recommended.forEach((v) => {
-    const el = document.createElement("a");
-    el.href = `watch.html?v=${v.id}`;
-    el.className = "side-card";
-    el.innerHTML = `
-      <div class="side-thumb" style="background:${v.gradient}">
-        <div class="corn-illustration">${cornSVG(v.paletteIndex)}</div>
-        ${categoryIconBadge(v.icon)}
-        <div class="ch-watermark">${ICON_CH_WATERMARK}</div>
-        <span class="duration-badge">${v.isLive ? "LIVE" : formatDuration(v.duration)}</span>
-      </div>
-      <div class="side-info">
-        <div class="card-title">${v.title}</div>
-        <div class="card-meta">${v.channel.name}</div>
-        <div class="card-meta">${formatViews(v.views)} vistas · ${timeAgo(v.daysAgo)}</div>
-      </div>
-    `;
-    sidebarList.appendChild(el);
-  });
+  // ---------- Sidebar de recomendados ----------
+  function startSidebar() {
+    const sidebarList = document.getElementById("sidebar-list");
+    const recommended = getAllVideos().filter((v) => v.id !== video.id)
+      .sort((a, b) => (a.category === video.category ? -1 : 0) - (b.category === video.category ? -1 : 0))
+      .slice(0, 10);
+
+    recommended.forEach((v) => {
+      const el = document.createElement("a");
+      el.href = `watch.html?v=${v.id}`;
+      el.className = "side-card";
+      el.innerHTML = `
+        <div class="side-thumb" style="background:${v.gradient}">
+          <div class="corn-illustration">${cornSVG(v.paletteIndex)}</div>
+          ${categoryIconBadge(v.icon)}
+          <div class="ch-watermark">${ICON_CH_WATERMARK}</div>
+          <span class="duration-badge">${v.isLive ? "LIVE" : formatDuration(v.duration)}</span>
+        </div>
+        <div class="side-info">
+          <div class="card-title">${v.title}</div>
+          <div class="card-meta">${v.channel.name}</div>
+          <div class="card-meta">${formatViews(v.views)} vistas · ${timeAgo(v.daysAgo)}</div>
+        </div>
+      `;
+      sidebarList.appendChild(el);
+    });
+  }
 }

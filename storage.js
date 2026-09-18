@@ -6,34 +6,10 @@ const LS_KEYS = {
   profile: "cornhub_profile",
   comments: "cornhub_comments", // { [videoId]: [comment, ...] }
   subs: "cornhub_subscriptions", // [channelName, ...]
-  account: "cornhub_account", // { name, emoji, subs } | null
-  uploads: "cornhub_uploads", // [video, ...] subidos por el usuario
+  uploads: "cornhub_uploads", // [video, ...] subidos sin sincronización disponible
 };
 
-// ---------- Cuenta simulada (login falso, solo en este navegador) ----------
-function loadAccount() {
-  try {
-    const raw = localStorage.getItem(LS_KEYS.account);
-    return raw ? JSON.parse(raw) : null;
-  } catch (e) {
-    return null;
-  }
-}
-
-function saveAccount(account) {
-  try {
-    localStorage.setItem(LS_KEYS.account, JSON.stringify(account));
-  } catch (e) {}
-  saveProfile({ name: account.name, avatar: account.emoji });
-}
-
-function logoutAccount() {
-  try {
-    localStorage.removeItem(LS_KEYS.account);
-  } catch (e) {}
-}
-
-// ---------- Videos "subidos" por el usuario (simulado, viven en este navegador) ----------
+// ---------- Videos "subidos" (respaldo local si Supabase no está disponible) ----------
 function loadUploads() {
   try {
     const raw = localStorage.getItem(LS_KEYS.uploads);

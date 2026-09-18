@@ -111,8 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clickTimer = setTimeout(() => {
       if (clickCount >= 5) {
         logo.classList.add("logo-spin");
-        showToast("🌽 Encontraste el modo secreto del elote giratorio");
-        startCornRain();
+        triggerLogoVideo();
         setTimeout(() => logo.classList.remove("logo-spin"), 1200);
       } else {
         window.location.href = logo.getAttribute("href");
@@ -121,6 +120,84 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 350);
   });
 });
+
+// ---------- Easter egg: 5 clics en el logo -> video sorpresa ----------
+const videoEggStyle = document.createElement("style");
+videoEggStyle.textContent = `
+.cornhub-video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.cornhub-video-overlay.show { opacity: 1; }
+.cornhub-video-box {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+}
+.cornhub-video-box video {
+  display: block;
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.6);
+  background: #000;
+}
+.cornhub-video-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ff9900;
+  color: #1e1e1e;
+  border: none;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  line-height: 1;
+}
+`;
+document.head.appendChild(videoEggStyle);
+
+function triggerLogoVideo() {
+  const overlay = document.createElement("div");
+  overlay.className = "cornhub-video-overlay";
+  overlay.innerHTML = `
+    <div class="cornhub-video-box">
+      <button class="cornhub-video-close" title="Cerrar">×</button>
+      <video src="video.mp4" autoplay controls></video>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add("show"));
+
+  function closeOverlay() {
+    overlay.classList.remove("show");
+    document.removeEventListener("keydown", onKeydown);
+    setTimeout(() => overlay.remove(), 250);
+  }
+  function onKeydown(e) {
+    if (e.key === "Escape") closeOverlay();
+  }
+  document.addEventListener("keydown", onKeydown);
+
+  overlay.querySelector(".cornhub-video-close").addEventListener("click", closeOverlay);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeOverlay();
+  });
+  overlay.querySelector("video").addEventListener("ended", closeOverlay);
+  overlay.querySelector("video").addEventListener("error", () => {
+    showToast("🌽 Falta el archivo video.mp4 en el proyecto");
+  });
+}
 
 const spinStyle = document.createElement("style");
 spinStyle.textContent = `

@@ -362,7 +362,19 @@ main { padding: 20px; max-width: 1400px; margin: 0 auto; }
   display: flex; align-items: center; justify-content: center;
   background: var(--green);
   font-size: 12px;
+  overflow: hidden;
 }
+
+.avatar img,
+.auth-avatar img,
+.channel-avatar-big img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.auth-avatar { overflow: hidden; }
 
 /* Watch page */
 .watch-layout {
@@ -606,10 +618,55 @@ footer.site-footer {
 
 .channel-banner {
   background: linear-gradient(135deg,#2a2f0e,#5a4a0e);
+  background-size: cover;
+  background-position: center;
   border-radius: var(--radius);
   padding: 24px 20px;
   border: 1px solid var(--border);
+  position: relative;
 }
+
+.channel-banner.has-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.2));
+  border-radius: var(--radius);
+}
+
+.channel-banner-info { position: relative; z-index: 1; }
+
+.channel-edit-wrap {
+  margin-top: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+.channel-edit-wrap[hidden] { display: none; }
+
+.channel-edit-wrap h3 { margin: 0 0 10px; font-size: 15px; }
+
+.channel-edit-wrap label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  margin-top: 10px;
+}
+
+.channel-edit-wrap input[type="text"] {
+  width: 100%;
+  margin-top: 4px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.channel-edit-wrap input[type="file"] { margin-top: 4px; }
 
 .channel-banner-info {
   display: flex;
@@ -773,6 +830,26 @@ footer.site-footer {
 .avatar-choice.selected {
   border-color: var(--accent);
   background: rgba(255,153,0,.15);
+}
+
+.auth-error {
+  background: rgba(217,60,60,.12);
+  border: 1px solid #d93c3c;
+  color: #ff8a8a;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  margin: 4px 0 0;
+}
+
+.auth-switch-btn {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 12.5px;
+  cursor: pointer;
+  text-align: center;
 }
 
 .primary-btn {

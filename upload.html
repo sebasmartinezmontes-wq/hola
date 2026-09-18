@@ -19,9 +19,8 @@
     <form class="auth-card" id="upload-form">
       <h1>Subir video</h1>
       <p class="auth-note">
-        Subida 100% simulada: no se procesa ningún archivo real, solo se crea
-        una tarjeta de video falsa. Se guarda compartida para todos los que
-        entren al sitio (o solo en tu navegador si la sincronización no está disponible).
+        El video se sube de verdad y queda visible para todos los que entren
+        al sitio (o solo en tu navegador si la sincronización no está disponible).
       </p>
 
       <label for="title-input">Título del video</label>
@@ -29,6 +28,9 @@
 
       <label for="cat-select">Categoría</label>
       <select id="cat-select"></select>
+
+      <label for="video-file-input">Archivo de video</label>
+      <input type="file" id="video-file-input" accept="video/*" required />
 
       <div id="upload-progress-wrap" style="display:none">
         <label>Subiendo...</label>
@@ -42,6 +44,8 @@
   <script src="data.js"></script>
   <script src="svg.js"></script>
   <script src="storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="dbsync.js"></script>
   <script src="auth.js"></script>
   <script src="upload.js"></script>

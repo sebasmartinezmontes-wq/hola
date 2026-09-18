@@ -30,10 +30,11 @@
   <div class="watch-layout">
     <div>
       <div class="player" id="player">
+        <video id="player-video" style="display:none;width:100%;height:100%;background:#000;" controls playsinline></video>
         <canvas id="player-canvas" width="960" height="540"></canvas>
-        <span class="player-overlay-msg">▶ Reproductor simulado — sin video real</span>
+        <span class="player-overlay-msg" id="player-overlay-msg">▶ Reproductor simulado — sin video real</span>
         <div class="buffering-spinner" id="buffering-spinner"></div>
-        <div class="player-controls">
+        <div class="player-controls" id="player-controls">
           <div class="progress-track" id="progress-track">
             <div class="progress-fill" id="progress-fill"></div>
           </div>
@@ -95,6 +96,8 @@
   <script src="data.js"></script>
   <script src="svg.js"></script>
   <script src="storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="dbsync.js"></script>
   <script src="render.js"></script>
   <script src="auth.js"></script>

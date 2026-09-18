@@ -1,39 +1,79 @@
 document.getElementById("logo-icon").innerHTML = ICON_LOGO;
 
-const AVATAR_CHOICES = ["🌽", "🌶️", "🍿", "🧑‍🌾", "🎬", "🎮", "🎧", "⚽", "👻", "🎨", "🍦", "🐔"];
+let mode = "login"; // "login" | "signup"
 
-const picker = document.getElementById("avatar-picker");
-let selectedAvatar = AVATAR_CHOICES[0];
+const form = document.getElementById("auth-form");
+const title = document.getElementById("auth-title");
+const note = document.getElementById("auth-note");
+const nameField = document.getElementById("name-field");
+const nameInput = document.getElementById("name-input");
+const emailInput = document.getElementById("email-input");
+const passwordInput = document.getElementById("password-input");
+const errorEl = document.getElementById("auth-error");
+const submitBtn = document.getElementById("auth-submit-btn");
+const switchBtn = document.getElementById("auth-switch-btn");
 
-AVATAR_CHOICES.forEach((emoji, i) => {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "avatar-choice" + (i === 0 ? " selected" : "");
-  btn.textContent = emoji;
-  btn.addEventListener("click", () => {
-    selectedAvatar = emoji;
-    document.querySelectorAll(".avatar-choice").forEach((b) => b.classList.remove("selected"));
-    btn.classList.add("selected");
-  });
-  picker.appendChild(btn);
+function applyMode() {
+  const isSignup = mode === "signup";
+  title.textContent = isSignup ? "Crear cuenta" : "Iniciar sesión";
+  note.textContent = isSignup
+    ? "Elegí el nombre de tu canal y creá tu cuenta con correo y contraseña."
+    : "Entrá con tu correo y contraseña.";
+  nameField.style.display = isSignup ? "block" : "none";
+  nameInput.required = isSignup;
+  submitBtn.textContent = isSignup ? "Crear cuenta" : "Iniciar sesión";
+  switchBtn.textContent = isSignup ? "¿Ya tenés cuenta? Iniciá sesión" : "¿No tenés cuenta? Creá una";
+  errorEl.style.display = "none";
+}
+applyMode();
+
+switchBtn.addEventListener("click", () => {
+  mode = mode === "login" ? "signup" : "login";
+  applyMode();
 });
 
-// Si ya había una cuenta, precarga sus datos.
-const existing = loadAccount();
-if (existing) {
-  document.getElementById("name-input").value = existing.name;
-  selectedAvatar = existing.emoji;
-}
-
-document.getElementById("login-form").addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = document.getElementById("name-input").value.trim();
-  if (!name) return;
+  errorEl.style.display = "none";
 
-  const account = existing && existing.name === name
-    ? { ...existing, emoji: selectedAvatar }
-    : { name, emoji: selectedAvatar, subs: String(Math.floor(Math.random() * 40)) };
+  if (!supabaseClient) {
+    errorEl.textContent = "El inicio de sesión no está disponible ahora mismo.";
+    errorEl.style.display = "block";
+    return;
+  }
 
-  saveAccount(account);
-  window.location.href = `channel.html?name=${encodeURIComponent(name)}`;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  submitBtn.disabled = true;
+
+  try {
+    if (mode === "signup") {
+      const name = nameInput.value.trim();
+      if (!name) throw new Error("Ponele un nombre a tu canal.");
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: { data: { name } },
+      });
+      if (error) throw error;
+
+      if (data.session) {
+        window.location.href = `channel.html?name=${encodeURIComponent(name)}`;
+      } else {
+        mode = "login";
+        applyMode();
+        note.textContent = "¡Listo! Revisá tu correo para confirmar la cuenta y después iniciá sesión.";
+      }
+    } else {
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      window.location.href = "index.html";
+    }
+  } catch (err) {
+    errorEl.textContent = err.message || "Algo salió mal.";
+    errorEl.style.display = "block";
+  } finally {
+    submitBtn.disabled = false;
+  }
 });

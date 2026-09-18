@@ -33,6 +33,22 @@
       </div>
     </div>
 
+    <div class="channel-edit-wrap" id="edit-channel-wrap" hidden>
+      <h3>Editar mi canal</h3>
+      <form id="edit-channel-form">
+        <label for="edit-name-input">Nombre del canal</label>
+        <input type="text" id="edit-name-input" maxlength="40" />
+
+        <label for="edit-avatar-input">Foto de perfil</label>
+        <input type="file" id="edit-avatar-input" accept="image/*" />
+
+        <label for="edit-banner-input">Banner del canal</label>
+        <input type="file" id="edit-banner-input" accept="image/*" />
+
+        <button type="submit" class="primary-btn" id="edit-channel-save-btn">Guardar cambios</button>
+      </form>
+    </div>
+
     <h2 class="sidebar-title" style="margin-top:20px">Videos del canal</h2>
     <div class="video-grid" id="video-grid"></div>
     <div class="empty-state" id="empty-state" style="display:none">
@@ -47,6 +63,8 @@
   <script src="data.js"></script>
   <script src="svg.js"></script>
   <script src="storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="dbsync.js"></script>
   <script src="render.js"></script>
   <script src="auth.js"></script>
